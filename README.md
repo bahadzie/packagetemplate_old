@@ -145,6 +145,8 @@ edit these files in a text editor.
 
 1.  Populate fields in the DESCRIPTION and NAMESPACE
 
+<!-- end list -->
+
 ``` r
 # e.g. using data.table
 usethis::use_package("data.table")
@@ -158,6 +160,8 @@ usethis::use_data_table()
 ```
 
 2.  Set up unit testing infrastructure
+
+<!-- end list -->
 
 ``` r
 usethis::use_testthat()
@@ -180,6 +184,8 @@ usethis::use_mit_licence()
 
 4.  Make a README page
 
+<!-- end list -->
+
 ``` r
 usethis::use_readme_rmd()
 ```
@@ -196,6 +202,8 @@ or using a Github Actions setup (see the examples here
 
 5.  Set up continuous integration using Github Actions
 
+<!-- end list -->
+
 ``` r
 # to check package installation
 usethis::use_github_actions_check_standard()
@@ -206,15 +214,19 @@ usethis::use_github_action("test-coverage")
 
 6.  Set up documentation
 
-<!-- -->
+<!-- end list -->
 
 1.  Document the package as required using
+
+<!-- end list -->
 
 ``` r
 devtools::document()
 ```
 
 2.  Set up a `pkgdown` website.
+
+<!-- end list -->
 
 ``` r
 # configure the pkgdown YAML.
