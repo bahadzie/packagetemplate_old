@@ -1,0 +1,86 @@
+# Reproduce locally by running:
+# ```r
+# pak::pak(c("any::rmarkdown", "any::usethis", "."))
+# writeLines(
+#   knitr::knit_expand(
+#     "README.Rmd",
+#     packagename = read.dcf("DESCRIPTION", "Package"),
+#     gh_repo = usethis:::github_remote_list()$repo_spec
+#   ),
+#   "README_expanded.Rmd"
+# )
+# rmarkdown::render(
+#   "README_expanded.Rmd",
+#   output_file = "README.md",
+#   output_dir = "."
+# )
+# unlink("README_expanded.Rmd")
+# ```
+name: render-readme-quick
+
+# Controls when the action will run. Triggers include:
+#
+# - button trigger from github action page
+# - on changes to readme.Rmd
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'README.Rmd'
+      - '.github/workflows/render_readme.yml'
+      - '.github/workflows/render_readme_quick.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  render-readme-quick:
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    container: bahadzie/alpine-r:4.3.0
+    steps:
+      - name: Checkout repos
+        uses: actions/checkout@v4
+
+      - name: Temp Fix. https://github.com/peter-evans/create-pull-request/issues/1170
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Compile the readme
+        run: |
+          writeLines(
+            knitr::knit_expand(
+              "README.Rmd",
+              packagename = read.dcf("DESCRIPTION", "Package"),
+              institution = read.dcf("DESCRIPTION", "Config/Institution"),
+              department = read.dcf("DESCRIPTION", "Config/Department"),
+              department_url = read.dcf("DESCRIPTION", "Config/DepartmentURL"),
+              recon = read.dcf("DESCRIPTION", "Config/Recon"),
+              recon_description = read.dcf("DESCRIPTION", "Config/ReconDescription"),
+              gh_repo = Sys.getenv("GITHUB_REPOSITORY")
+            ),
+            "README_expanded.Rmd"
+          )
+          rmarkdown::render(
+            "README_expanded.Rmd",
+            output_file = "README.md",
+            output_dir = "."
+          )
+        shell: Rscript {0}
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          # Also add README figures if they exist
+          if [ -d man/figures ]
+          then
+            git add man/figures/
+          fi
+          git diff-index --quiet HEAD || git commit -m "Automatic readme update"
+          git push origin R-test || echo "No changes to push"

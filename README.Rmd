@@ -25,6 +25,19 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/{{ gh_repo }}/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/{{ gh_repo }}/branch/main/graph/badge.svg)](https://app.codecov.io/gh/{{ gh_repo }}?branch=main)
 [![lifecycle-{{ recon }}](https://www.reconverse.org/images/badge-{{ recon }}.svg)](https://www.reconverse.org/lifecycle.html#{{ recon }})
+
+<!-- extra badges to consider -->
+![downloads](https://cranlogs.r-pkg.org/badges/{{ packagename }})
+![all downloads](https://cranlogs.r-pkg.org/badges/grand-total/{{ packagename }})
+![GitHub repo size](https://img.shields.io/github/repo-size/{{ gh_repo }}?style=plastic)
+![GitHub language count](https://img.shields.io/github/languages/count/{{ gh_repo }}?style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/{{ gh_repo }}?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/{{ gh_repo }}?color=red&style=plastic)
+![GitHub stars](https://img.shields.io/github/stars/{{ gh_repo }}?style=social)
+![GitHub forks](https://img.shields.io/github/forks/{{ gh_repo }}?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/{{ gh_repo }}?style=social)
+![GitHub downloads](https://img.shields.io/github/downloads/{{ gh_repo }}/total.svg)
+![Repo Size](https://img.shields.io/github/repo-size/{{ gh_repo }})
 <!-- badges: end -->
 
 {{ packagename }} provides functions to ....
